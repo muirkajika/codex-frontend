@@ -37,7 +37,7 @@ This is the Next.js frontend for the Codex Personal Knowledge Management applica
     **IMPORTANT:** Use the full public URL of your backend, including the `/api` part.
     ```env
     # .env.local
-    NEXT_PUBLIC_API_URL=https://my-codex-app.duckdns.org/api
+    NEXT_PUBLIC_API_URL=https://codex.flexxor.duckdns.org/
     ```
 
 4.  **Run the development server:**
@@ -69,7 +69,7 @@ services:
     # image: nginx:alpine
 
     # ADD your real frontend image
-    image: your-dockerhub-username/codex-frontend:latest
+    image: bfizzle01/links:latest
     container_name: codex-frontend
     restart: unless-stopped
     networks:
