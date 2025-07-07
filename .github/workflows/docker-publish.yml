@@ -1,6 +1,7 @@
-name: Build andOf course. Let me provide that complete, final workflow code for you right here to avoid any confusion.
-
- Push Frontend Docker Image
+#
+# GitHub Action: Build and Push Frontend Docker image to Docker Hub
+#
+name: Build and Push Frontend Docker Image
 
 # This action runs on every push to the 'main' branch
 on:
@@ -35,34 +36,7 @@ jobs:
       # 4. Build the Docker image and push it to Docker Hub
       - name: Build and push
         uses: docker/build-push-action@v4
-        with:This is the code you will paste into the `docker-publish.yml` file for your `codex-frontend` repository. It is specifically designed to build the Next.js frontend and correctly handle the `NEXT_PUBLIC_API_URL` secret.
-
----
-
-### **Complete GitHub Action Workflow for `codex-frontend`**
-
-When you are on the "Create new file" page for `docker-publish.yml` in your `codex-frontend` GitHub repository, paste the following text into the editor:
-
-```yaml
-#
-# GitHub Action: Build and Push Frontend Docker image to Docker Hub
-#
-name: Build and Push Frontend Docker Image
-
-# This action runs on every push to the 'main' branch
-on:
-  push:
-    branches: [ "main" ]
-
-# Define the jobs to run
-jobs:
-  build-and-push:
-    # Use the latest version of Ubuntu to run the job
-    runs-on: ubuntu-latest
-
-    # Define the steps for this job
-    steps:
-      # 1.
+        with:
           context: .
           file: ./Dockerfile
           push: true # This tells the action to actually push the image to the registry
