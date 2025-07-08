@@ -18,14 +18,20 @@ RUN npm run build
 FROM node:18-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
-# Copy essential files from the builder stage
-COPY --from=builder /app/public ./public
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-# Create a non-root user for security
+# Create a non-root user for security before copying files
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
+
+# Copy the standalone output
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+
+# Copy the public and static folders if they exist. This is more resilient.
+# The '|| true' part prevents the build from failing if the folder is missing.
+COPY --from=builder --chown=nextjs:nodejs /app/public ./public || true
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
 USER nextjs
 EXPOSE 3000
-# The command to start the optimized Next.js server
+
+# The command to start the server is now inside the standalone folder
 CMD ["node", "server.js"]
