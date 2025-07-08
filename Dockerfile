@@ -22,16 +22,14 @@ ENV NODE_ENV=production
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-# Copy the standalone output
+# Copy the standalone output which contains the server and minimal node_modules
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-
-# Copy the public and static folders if they exist. This is more resilient.
-# The '|| true' part prevents the build from failing if the folder is missing.
-COPY --from=builder --chown=nextjs:nodejs /app/public ./public || true
+# Copy the public and static folders into the standalone folder for serving
+COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 USER nextjs
 EXPOSE 3000
 
-# The command to start the server is now inside the standalone folder
+# The command to start the server from within the standalone context
 CMD ["node", "server.js"]
